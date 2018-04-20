@@ -32,14 +32,22 @@
             <div id="gridsettings">
                 <div id="panel1" role="tabpanel" aria-hidden="false" aria-labelledby="tab1" class="tab">
                     <form id="gridForm" name="gridForm">
-                        <fieldset class="gridsettings__columns">
-                            <legend>Columns</legend>
+                        <fieldset class="gridsettings__breakpoints">
+                            <legend>Breakpoints</legend>
                             <div>
-                                <label for="largeColumns">Large</label>
+                                <label for="numberBreakpoints">Number</label>
+                                <input type="number" id="numberBreakpoints" class="fillCol" value="2" min="2" max="10">
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="gridsettings__columns">
+                            <legend>Columns per Breakpoint</legend>
+                            <div>
+                                <label for="largeColumns">1</label>
                                 <input type="number" id="largeColumns" class="fillCol" value="16" min="1" max="999">
                             </div>
                             <div>
-                                <label for="smallColumns">Small</label>
+                                <label for="smallColumns">2</label>
                                 <input type="number" id="smallColumns" class="fillCol" value="8" min="1" max="999">
                             </div>
                         </fieldset>
@@ -47,7 +55,7 @@
 
                         <fieldset class="gridsettings__gutters">
                             <legend>Gutters</legend>
-                            <h3>Vertical &ndash; Large</h3>
+                            <h3>Vertical &ndash; 1</h3>
                             <div>
                                 <label for="gutters">Inner</label>
                                 <input type="number" id="gutters" value="16">
@@ -56,7 +64,7 @@
                                 <label for="outterGutters">Outer</label>
                                 <input type="number" id="outterGutters" value="16">
                             </div>
-                            <h3>Vertical &ndash; Small</h3>
+                            <h3>Vertical &ndash; 2</h3>
                             <div>
                                 <label for="mobileInnerGutters">Inner</label>
                                 <input type="number" id="mobileInnerGutters" value="8">
@@ -79,7 +87,7 @@
                             <label for="largeWidth">Max Layout Width</label>
                             <input type="number" id="largeWidth" value="1280">
 
-                            <label for="smallWidth">Large to Small Breakpoint</label>
+                            <label for="smallWidth">1 to 2 Breakpoint</label>
                             <input type="number" id="smallWidth" value="600">
                         </fieldset>
 
@@ -194,7 +202,7 @@
                             </div>
                         </fieldset>
 
-                        
+
                         <div class="advancedForm-checkbox-wrapper">
                             <input type="checkbox" id="viewports">
                             <label
