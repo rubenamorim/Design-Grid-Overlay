@@ -133,10 +133,10 @@ var gridController = (function () {
      * @param {int} gridStatus - The status of the grid either 0 or 1 (off or on)
      */
     var respond = function (gridStatus) {
-        chrome.runtime.sendMessage({status: gridStatus});
+        chrome.runtime.sendMessage({ status: gridStatus });
     };
     var respondHorizontalLines = function (horizontalLinesStatus) {
-        chrome.runtime.sendMessage({horizontalLinesStatus: horizontalLinesStatus});
+        chrome.runtime.sendMessage({ horizontalLinesStatus: horizontalLinesStatus });
     };
 
     /**
@@ -149,16 +149,16 @@ var gridController = (function () {
      */
     var createGrid = function (currentTabId) {
         respond(1);
-        chrome.tabs.sendMessage(currentTabId, {method: "create", tabId: currentTabId});
+        chrome.tabs.sendMessage(currentTabId, { method: "create", tabId: currentTabId });
     };
 
     var enableHorizontalLines = function (currentTabId) {
         respondHorizontalLines(1);
-        chrome.tabs.sendMessage(currentTabId, {method: "enableHorizontalLines", tabId: currentTabId});
+        chrome.tabs.sendMessage(currentTabId, { method: "enableHorizontalLines", tabId: currentTabId });
     };
     var disableHorizontalLines = function (currentTabId) {
         respondHorizontalLines(0);
-        chrome.tabs.sendMessage(currentTabId, {method: "disableHorizontalLines", tabId: currentTabId});
+        chrome.tabs.sendMessage(currentTabId, { method: "disableHorizontalLines", tabId: currentTabId });
     };
 
     /**
@@ -180,7 +180,7 @@ var gridController = (function () {
         }
 
         var horizontalLinesToggle = document.getElementById('horizontalLinesToggle');
-        
+
         if (horizontalLinesToggle.checked) {
             enableHorizontalLines(currentTabId);
         } else {
@@ -202,6 +202,68 @@ var gridController = (function () {
         toggleGrid(currentTabId, options, advancedOptions);
     };
 
+    var initForm = function (nColumns) {
+        for (var i = 0; i < nColumns; i++) {
+            addBreakpointFormField(i);
+        }
+    };
+
+    var addBreakpointFormField = function (index) {
+        var columnsContainer = document.getElementsByClassName("gridsettings__columns");
+        var guttersContainer = document.getElementsByClassName("gridsettings__gutters");
+
+        columnsContainer[0].innerHTML +=
+            "<div>" +
+            "<label for=\"columns[" + index + "]\"> " + (index + 1) + "</label>" +
+            "<input type=\"number\" id=\"columns[" + index + "]\" class=\"fillCol\" value=\"16\" min=\"1\" max=\"999\">" +
+            "</div>";
+
+        guttersContainer[0].innerHTML +=
+            "<h3>Vertical &ndash; " + (index + 1) + "</h3>" +
+            "<div>" +
+            "<label for=\"innerGutters[" + index + "]\">Inner</label>" +
+            "<input type=\"number\" id=\"innerGutters[" + index + "]\" value=\"16\">" +
+            "</div>" +
+            "<div>" +
+            "<label for=\"outterGutters[" + index + "]\">Outer</label>" +
+            "<input type=\"number\" id=\"outterGutters[" + index + "]\" value=\"16\">" +
+            "</div>";
+
+        if (index > 0) {
+            var sizesContainer = document.getElementById("screenSizes");
+
+            sizesContainer.innerHTML +=
+                "<label for=\"breakpointsWidth[" + (index - 1) + "]\">" + index + " to " + (index + 1) + " Breakpoint</label>" +
+                "<input type=\"number\" id=\"breakpointsWidth[" + index + "]\" value=\"600\">";
+        }
+    }
+
+    var addBreakpoint = function () {
+        var columnsContainer = document.getElementsByClassName("gridsettings__columns");
+        var numberOfBreakpoints = columnsContainer[0].getElementsByTagName("div").length - 1;
+
+        if (numberOfBreakpoints >= 2 && numberOfBreakpoints < 10) {
+            addBreakpointFormField(numberOfBreakpoints);
+        }
+    }
+
+    var removeBreakpoint = function () {
+        var columnsContainer = document.getElementsByClassName("gridsettings__columns");
+        var guttersContainer = document.getElementsByClassName("gridsettings__gutters");
+        var sizesContainer = document.getElementById("screenSizes");
+        var numberOfBreakpoints = columnsContainer[0].getElementsByTagName("div").length - 1;
+
+        if (numberOfBreakpoints > 2 && numberOfBreakpoints <= 10) {
+            columnsContainer[0].removeChild(columnsContainer[0].lastChild);
+            [0, 1, 2].forEach(function () {
+                guttersContainer[0].removeChild(guttersContainer[0].lastChild)
+            });
+            [0, 1].forEach(function () {
+                sizesContainer.removeChild(sizesContainer.lastChild)
+            });
+        }
+    };
+
     /**
      * Removes the grid from the current tab.
      * Fires two events, destroy and removeCSS.
@@ -213,7 +275,7 @@ var gridController = (function () {
     var removeGrid = function (currentTabId) {
         respond(0);
 
-        chrome.tabs.sendMessage(currentTabId, {method: "destroy", tabId: currentTabId});
+        chrome.tabs.sendMessage(currentTabId, { method: "destroy", tabId: currentTabId });
     };
 
 
@@ -223,9 +285,12 @@ var gridController = (function () {
     return {
         toggleGrid: toggleGrid,
         updateGrid: updateGrid,
+        initForm: initForm,
+        addBreakpoint: addBreakpoint,
+        removeBreakpoint: removeBreakpoint,
         removeGrid: removeGrid,
         disableHorizontalLines: disableHorizontalLines,
         enableHorizontalLines: enableHorizontalLines
-    }
+    };
 
 })();

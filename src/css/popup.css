@@ -32,6 +32,8 @@ legend {
 }
 
 h3 {
+  float: left;
+  width: 100%;
   margin: 5px 0 0 0;
   font-weight: 500;
   font-size: 12px;
@@ -123,7 +125,7 @@ h3 {
 #gridsettings {
   background-color: #f0eeec;
   padding: 12px 8px 0 8px;
-  flex-grow: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-user-select: none;
 }
@@ -173,14 +175,19 @@ input[type=reset] {
   -webkit-appearance: button;
 }
 
-input[type=reset] {
+input[type=reset],
+.breakpointButtons input {
   margin-top: 8px;
   color: #555555;
   border: 1px solid #999999;
   background-color: rgba(240, 238, 236, 1);
 }
 
-.gridsettings__breakpoints div,
+.gridsettings__columns .breakpointButtons {
+  width: 100%;
+  padding: 0;
+}
+
 .gridsettings__columns div,
 .gridsettings__gutters div,
 #otherSettings div {
@@ -208,18 +215,18 @@ input[type=reset] {
 }
 
 .gridsettings__columns label, .gridsettings__gutters label {
-
   width: 32px;
   flex-shrink: 0;
   display: inline-block;
 }
 
-.gridsettings__columns div:nth-of-type(odd),
-#otherSettings div:nth-of-type(odd) {
-  padding: 0 8px 0 0;
+.horizontalGutter {
+  padding-right: 8px;
 }
 
-.gridsettings__gutters div:nth-of-type(odd) {
+.gridsettings__columns div:nth-of-type(even),
+.gridsettings__gutters div:nth-of-type(even),
+#otherSettings div:nth-of-type(odd) {
   padding: 0 8px 0 0;
 }
 

@@ -1,245 +1,214 @@
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="css/tab.css">
-        <link rel="stylesheet" type="text/css" href="css/popup.css">
-    </head>
-    <body>
-      <div id="main">
-        <header>
-            <div class="switch">
-                <label for="gridToggle">Vertical Grid Overlay<br><span id="toggle-v"></span></label>
-                <input id="gridToggle" type="checkbox" name="gridToggle" />
-                <span></span>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/tab.css">
+    <link rel="stylesheet" type="text/css" href="css/popup.css">
+</head>
+<body>
+<div id="main">
+    <header>
+        <div class="switch">
+            <label for="gridToggle">Vertical Grid Overlay<br><span id="toggle-v"></span></label>
+            <input id="gridToggle" type="checkbox" name="gridToggle" />
+            <span></span>
+        </div>
+        <div class="switch">
+            <label for="horizontalLinesToggle">Horizontal Lines Overlay <br><span id="toggle-h"></span></label>
+            <input id="horizontalLinesToggle" type="checkbox" name="horizontalLinesToggle" />
+            <span></span>
+        </div>
+    </header>
+    <div class="tabs">
+        <div role="tablist" id="tabContainer">
+            <div aria-controls="panel1" role="tab" tabindex="0" aria-selected="true" aria-hidden="false" id="tab1"
+                 class="tabLabel">
+                <span>Settings</span>
             </div>
-            <div class="switch">
-                <label for="horizontalLinesToggle">Horizontal Lines Overlay <br><span id="toggle-h"></span></label>
-                <input id="horizontalLinesToggle" type="checkbox" name="horizontalLinesToggle" />
-                <span></span>
+            <div aria-controls="panel2" role="tab" tabindex="-1" aria-selected="false" id="tab2" class="tabLabel">
+                <span>Report</span>
             </div>
-        </header>
-        <div class="tabs">
-            <div role="tablist" id="tabContainer">
-                <div aria-controls="panel1" role="tab" tabindex="0" aria-selected="true" aria-hidden="false" id="tab1" class="tabLabel">
-                    <span>Settings</span>
-                </div>
-                <div aria-controls="panel2" role="tab" tabindex="-1" aria-selected="false" id="tab2" class="tabLabel">
-                    <span>Report</span>
-                </div>
-                <div aria-controls="panel3" role="tab" tabindex="-1" aria-selected="false" id="tab3" class="tabLabel">
-                    <span>Advanced</span>
-                </div>
+            <div aria-controls="panel3" role="tab" tabindex="-1" aria-selected="false" id="tab3" class="tabLabel">
+                <span>Advanced</span>
             </div>
-            <div id="gridsettings">
-                <div id="panel1" role="tabpanel" aria-hidden="false" aria-labelledby="tab1" class="tab">
-                    <form id="gridForm" name="gridForm">
-                        <fieldset class="gridsettings__breakpoints">
-                            <legend>Breakpoints</legend>
-                            <div>
-                                <label for="numberBreakpoints">Number</label>
-                                <input type="number" id="numberBreakpoints" class="fillCol" value="2" min="2" max="10">
-                            </div>
-                        </fieldset>
-
-                        <fieldset class="gridsettings__columns">
-                            <legend>Columns per Breakpoint</legend>
-                            <div>
-                                <label for="largeColumns">1</label>
-                                <input type="number" id="largeColumns" class="fillCol" value="16" min="1" max="999">
-                            </div>
-                            <div>
-                                <label for="smallColumns">2</label>
-                                <input type="number" id="smallColumns" class="fillCol" value="8" min="1" max="999">
-                            </div>
-                        </fieldset>
-
-
-                        <fieldset class="gridsettings__gutters">
-                            <legend>Gutters</legend>
-                            <h3>Vertical &ndash; 1</h3>
-                            <div>
-                                <label for="gutters">Inner</label>
-                                <input type="number" id="gutters" value="16">
-                            </div>
-                            <div>
-                                <label for="outterGutters">Outer</label>
-                                <input type="number" id="outterGutters" value="16">
-                            </div>
-                            <h3>Vertical &ndash; 2</h3>
-                            <div>
-                                <label for="mobileInnerGutters">Inner</label>
-                                <input type="number" id="mobileInnerGutters" value="8">
-                            </div>
-                            <div>
-                                <label for="mobileOutterGutters">Outer</label>
-                                <input type="number" id="mobileOutterGutters" value="8">
-                            </div>
-                            <h3>Horizontal</h3>
-                            <div>
-                                <label for="rowGutters">Height</label>
-                                <input type="number" id="rowGutters" class="fillCol" value="16" min="1">
-                            </div>
-                        </fieldset>
-
-
-                        <fieldset id="screenSizes">
-                            <legend>Screen Sizes</legend>
-
-                            <label for="largeWidth">Max Layout Width</label>
-                            <input type="number" id="largeWidth" value="1280">
-
-                            <label for="smallWidth">1 to 2 Breakpoint</label>
-                            <input type="number" id="smallWidth" value="600">
-                        </fieldset>
-
-                        <fieldset id="otherSettings">
-                            <legend>Offset</legend>
-
-                            <div>
-                                <label for="offsetX">X</label>
-                                <input type="number" id="offsetX" class="fillCol" value="0">
-                            </div>
-                            <div>
-                                <label for="offsetY">Y</label>
-                                <input type="number" id="offsetY" class="fillCol" value="0">
-                            </div>
-                        </fieldset>
-
-                        <div class="reset">
-                            <input type="reset" id="resetToDefaults" value="Reset Grid Settings">
+        </div>
+        <div id="gridsettings">
+            <div id="panel1" role="tabpanel" aria-hidden="false" aria-labelledby="tab1" class="tab">
+                <form id="gridForm" name="gridForm">
+                    <fieldset class="gridsettings__columns">
+                        <legend>Columns per Breakpoint</legend>
+                        <div class="breakpointButtons">
+                            <input type="button" id="addBreakpoint" value="Add">
+                            <input type="button" id="removeBreakpoint" value="Remove">
                         </div>
-                    </form>
-                </div>
-                <div id="panel2" role="tabpanel" aria-hidden="true" aria-labelledby="tab2" class="tab">
-                    <form id="reportForm" name="reportForm">
-                        <fieldset id="overlaySettings">
-                            <legend>Content Width Labels</legend>
-                            <div class="overlaySettingsCheckboxes">
-                                <input type="checkbox" id="reportOverlayToggle">
-                                <label
-                                        info="Show content width labels, which measure and display the inner widths (in pixels) for elements chosen by the CSS selector below."
-                                        for="reportOverlayToggle"
-                                        class="tooltip">
-                                    Show Labels
-                                </label>
-                                <br />
-                                <input type="checkbox" id="reportOverlayMatchEmptyElements">
-                                <label
-                                    info="Include content width labels for elements that contain no text or other elements"
-                                    for="reportOverlayMatchEmptyElements"
-                                    class="tooltip">
-                                    Label Empty Elements
-                                </label>
-                            </div>
-                            <div>
-                                <label
-                                    info="CSS selector that chooses the elements to measure. Use multiple selectors by separating each with a comma."
-                                    for="reportOverlaySelector"
-                                    class="tooltip">
-                                    Element Selector
-                                </label>(<a href="https://css-tricks.com/how-css-selectors-work/" class="extlink">help</a>)
-                                <input type="text" id="reportOverlaySelector" value="body, h1, a, .grid__cell">
-                            </div>
-                        </fieldset>
-                        <div class="reset">
-                            <input type="reset" value="Reset Report Settings">
-                        </div>
-                    </form>
-                    <div class="reportContainer">
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>#Cols</th>
-                                <th class="table-right">Width</th>
-                            </tr>
-                            </thead>
-                            <tbody id="report">
+                    </fieldset>
 
-                            </tbody>
-                        </table>
+
+                    <fieldset class="gridsettings__gutters">
+                        <legend>Gutters</legend>
+                        <h3>Horizontal</h3>
+                        <div class="horizontalGutter">
+                            <label for="rowGutters">Height</label>
+                            <input type="number" id="rowGutters" class="fillCol" value="16" min="1">
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset id="screenSizes">
+                        <legend>Screen Sizes</legend>
+                        <label for="largeWidth">Max Layout Width</label>
+                        <input type="number" id="largeWidth" value="1280">
+                    </fieldset>
+
+                    <fieldset id="otherSettings">
+                        <legend>Offset</legend>
+
+                        <div>
+                            <label for="offsetX">X</label>
+                            <input type="number" id="offsetX" class="fillCol" value="0">
+                        </div>
+                        <div>
+                            <label for="offsetY">Y</label>
+                            <input type="number" id="offsetY" class="fillCol" value="0">
+                        </div>
+                    </fieldset>
+
+                    <div class="reset">
+                        <input type="reset" id="resetToDefaults" value="Reset Grid Settings">
                     </div>
-                </div>
-                <div id="panel3" role="tabpanel" aria-hidden="true" aria-labelledby="tab3" class="tab">
-                    <form id="advancedForm" name="advancedForm">
-                        <fieldset>
-                            <legend>Grid</legend>
-                            <div>
-                                <label  info="Color of grid columns. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
-                                        class="tooltip" for="color">Column Color</label>
-                                <input type="text" id="color" value="rgba(155, 0, 65, 0.2)">
-                                <label  info="Color of horizontal lines. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
-                                        class="tooltip" for="horizontalLinesColor">Horizontal Lines Color</label>
-                                <input type="text" id="horizontalLinesColor" value="rgba(155, 0, 65, 0.2)">
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Content Width Labels</legend>
-                            <div class="overlaySettingsCheckboxes">
-
-                                <label
-                                    info="Primary color for content width labels. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
-                                    for="overlayLabelColor"
-                                    class="tooltip">
-                                    Label Color
-                                </label>
-                                <input type="text" id="overlayLabelColor" value="#ff0009">
-                                <br>
-                                <label
-                                    info="Text color for content width labels. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
-                                    for="overlayTextColor"
-                                    class="tooltip">
-                                    Text Color
-                                </label>
-                                <input type="text" id="overlayTextColor" value="#ffffff">
-                            </div>
-                            <div>
-                                <input type="checkbox" id="hideHiddenElementOverlays">
-                                <label
-                                    info="Do not show content width labels for hidden containers. This feature is experimental."
-                                    for="hideHiddenElementOverlays"
-                                    class="tooltip">
-                                    Hide labels for hidden containers
-                                </label>
-                            </div>
-                        </fieldset>
-
-
-                        <div class="advancedForm-checkbox-wrapper">
-                            <input type="checkbox" id="viewports">
+                </form>
+            </div>
+            <div id="panel2" role="tabpanel" aria-hidden="true" aria-labelledby="tab2" class="tab">
+                <form id="reportForm" name="reportForm">
+                    <fieldset id="overlaySettings">
+                        <legend>Content Width Labels</legend>
+                        <div class="overlaySettingsCheckboxes">
+                            <input type="checkbox" id="reportOverlayToggle">
                             <label
+                                info="Show content width labels, which measure and display the inner widths (in pixels) for elements chosen by the CSS selector below."
+                                for="reportOverlayToggle"
+                                class="tooltip">
+                                Show Labels
+                            </label>
+                            <br />
+                            <input type="checkbox" id="reportOverlayMatchEmptyElements">
+                            <label
+                                info="Include content width labels for elements that contain no text or other elements"
+                                for="reportOverlayMatchEmptyElements"
+                                class="tooltip">
+                                Label Empty Elements
+                            </label>
+                        </div>
+                        <div>
+                            <label
+                                info="CSS selector that chooses the elements to measure. Use multiple selectors by separating each with a comma."
+                                for="reportOverlaySelector"
+                                class="tooltip">
+                                Element Selector
+                            </label>(<a href="https://css-tricks.com/how-css-selectors-work/" class="extlink">help</a>)
+                            <input type="text" id="reportOverlaySelector" value="body, h1, a, .grid__cell">
+                        </div>
+                    </fieldset>
+                    <div class="reset">
+                        <input type="reset" value="Reset Report Settings">
+                    </div>
+                </form>
+                <div class="reportContainer">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>#Cols</th>
+                            <th class="table-right">Width</th>
+                        </tr>
+                        </thead>
+                        <tbody id="report">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="panel3" role="tabpanel" aria-hidden="true" aria-labelledby="tab3" class="tab">
+                <form id="advancedForm" name="advancedForm">
+                    <fieldset>
+                        <legend>Grid</legend>
+                        <div>
+                            <label
+                                info="Color of grid columns. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
+                                class="tooltip" for="color">Column Color</label>
+                            <input type="text" id="color" value="rgba(155, 0, 65, 0.2)">
+                            <label
+                                info="Color of horizontal lines. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
+                                class="tooltip" for="horizontalLinesColor">Horizontal Lines Color</label>
+                            <input type="text" id="horizontalLinesColor" value="rgba(155, 0, 65, 0.2)">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Content Width Labels</legend>
+                        <div class="overlaySettingsCheckboxes">
+
+                            <label
+                                info="Primary color for content width labels. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
+                                for="overlayLabelColor"
+                                class="tooltip">
+                                Label Color
+                            </label>
+                            <input type="text" id="overlayLabelColor" value="#ff0009">
+                            <br>
+                            <label
+                                info="Text color for content width labels. Examples: #ff0000, rgb(0, 0, 255), rgba(0, 255, 0, 0.3), hsl(120, 100%, 75%)"
+                                for="overlayTextColor"
+                                class="tooltip">
+                                Text Color
+                            </label>
+                            <input type="text" id="overlayTextColor" value="#ffffff">
+                        </div>
+                        <div>
+                            <input type="checkbox" id="hideHiddenElementOverlays">
+                            <label
+                                info="Do not show content width labels for hidden containers. This feature is experimental."
+                                for="hideHiddenElementOverlays"
+                                class="tooltip">
+                                Hide labels for hidden containers
+                            </label>
+                        </div>
+                    </fieldset>
+
+
+                    <div class="advancedForm-checkbox-wrapper">
+                        <input type="checkbox" id="viewports">
+                        <label
                             info="Will center grid by using View Port units (vw), ignoring the scroll bar"
                             for="viewports"
                             class="tooltip">
-                                Ignore scrollbar
-                            </label>
-                        </div>
-
-                        <input type="checkbox" id="tracking-permitted">
-                        <label for="tracking-permitted">
-                            Send anonymous usage data
+                            Ignore scrollbar
                         </label>
-                        <br>
-                        <br>
-                        <div id="activate-extension-wrapper">
-                            Activate the extension shortcut: <br>
-                            <span id="activate-extension"></span> <br>
-                        </div>
-                        <a href="https://github.com/eBay/Design-Grid-Overlay/issues" class="extlink" id="github-icon">
-                            <img src="../icons/GitHub-Mark-32px.png">
-                            <p style="display: inline-block;">Feedback?</p>
-                        </a>
-                        <div class="reset">
-                            <input type="reset" value="Reset Advanced">
-                        </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <input type="checkbox" id="tracking-permitted">
+                    <label for="tracking-permitted">
+                        Send anonymous usage data
+                    </label>
+                    <br>
+                    <br>
+                    <div id="activate-extension-wrapper">
+                        Activate the extension shortcut: <br>
+                        <span id="activate-extension"></span> <br>
+                    </div>
+                    <a href="https://github.com/eBay/Design-Grid-Overlay/issues" class="extlink" id="github-icon">
+                        <img src="../icons/GitHub-Mark-32px.png">
+                        <p style="display: inline-block;">Feedback?</p>
+                    </a>
+                    <div class="reset">
+                        <input type="reset" value="Reset Advanced">
+                    </div>
+                </form>
             </div>
         </div>
-      </div>
-        <script type="text/javascript" src="vendor/google-analytics-bundle.js"></script>
-        <script type="text/javascript" src="vendor/jquery-2.2.2.min.js"></script>
-        <script type="text/javascript" src="controllers/settingStorageController.js"></script>
-        <script type="text/javascript" src="controllers/gridController.js"></script>
-        <script type="text/javascript" src="controllers/reportController.js"></script>
-        <script type="text/javascript" src="popup.js"></script>
-    </body>
+    </div>
+</div>
+<script type="text/javascript" src="vendor/google-analytics-bundle.js"></script>
+<script type="text/javascript" src="vendor/jquery-2.2.2.min.js"></script>
+<script type="text/javascript" src="controllers/settingStorageController.js"></script>
+<script type="text/javascript" src="controllers/gridController.js"></script>
+<script type="text/javascript" src="controllers/reportController.js"></script>
+<script type="text/javascript" src="popup.js"></script>
+</body>
 </html>

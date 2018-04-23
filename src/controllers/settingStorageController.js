@@ -43,13 +43,10 @@ var settingStorageController = (function () {
                 settings: {
                     // Each of these settings keys maps to an input HTML element with the same id
                     largeWidth: EMPTY_VALUE,
-                    largeColumns: EMPTY_VALUE,
-                    smallColumns: EMPTY_VALUE,
-                    smallWidth: EMPTY_VALUE,
-                    gutters: EMPTY_VALUE,
-                    outterGutters: EMPTY_VALUE,
-                    mobileInnerGutters: EMPTY_VALUE,
-                    mobileOutterGutters: EMPTY_VALUE,
+                    //columns: EMPTY_VALUE,
+                    //innerGutters: EMPTY_VALUE,
+                    //outterGutters: EMPTY_VALUE,
+                    //breakpointsWidth: EMPTY_VALUE,
                     rowGutters: EMPTY_VALUE,
                     offsetX: EMPTY_VALUE,
                     offsetY: EMPTY_VALUE

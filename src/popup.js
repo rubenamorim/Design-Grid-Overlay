@@ -6,18 +6,20 @@ var popup = (function () {
     service.getConfig().addCallback(initAnalyticsConfig);
     var tracker = service.getTracker('UA-80131763-3');
     tracker.sendAppView('MainView');
-    
+
     var keyboardShortcutEnabled = false; //it’s a hack to do posiible use keyboard commands to show grid and lines at the very first time (before checkbox click)
 
     function initAnalyticsConfig(config) {
         var checkbox = document.getElementById('tracking-permitted');
         checkbox.checked = config.isTrackingPermitted();
-        checkbox.onchange = function() {
+        checkbox.onchange = function () {
             config.setTrackingPermitted(checkbox.checked);
         };
-    }   
-    
+    }
+
     var gridForm = document.getElementById('gridForm');
+    var addBreakpointButton = document.getElementById('addBreakpoint');
+    var removeBreakpointButton = document.getElementById('removeBreakpoint');
     var gridToggle = document.getElementById('gridToggle');
     var horizontalLinesToggle = document.getElementById('horizontalLinesToggle');
     var reportForm = document.getElementById('reportForm');
@@ -51,9 +53,9 @@ var popup = (function () {
      */
     var externalLinks = document.getElementsByClassName("extlink");
     for (var i = 0; i < externalLinks.length; i++) {
-        externalLinks[i].addEventListener('click', function(e){
+        externalLinks[i].addEventListener('click', function (e) {
             if (this.href !== undefined) {
-                chrome.tabs.create({url: this.href})
+                chrome.tabs.create({ url: this.href })
             }
         });
     }
@@ -80,7 +82,7 @@ var popup = (function () {
      */
     window.addEventListener('load', function () {
 
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
+        chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
 
             currentChromeTabId = tabs[0].id;
 
@@ -92,33 +94,33 @@ var popup = (function () {
             //Initialize state
             popup.init();
 
-            chrome.tabs.executeScript(currentChromeTabId, {file: 'src/executedScripts/gridStatus.js'});
+            chrome.tabs.executeScript(currentChromeTabId, { file: 'src/executedScripts/gridStatus.js' });
 
             //tabController.getCurrentTabState(tabs[0].id);
         });
 
-        chrome.commands.getAll(function(commands) { // use chrome extension api to get the defined shortcut
+        chrome.commands.getAll(function (commands) { // use chrome extension api to get the defined shortcut
             var toggle_columns_html = '';
             var toggle_lines_html = '';
             var activate_extension = '';
 
-            commands.forEach(function(element) {
+            commands.forEach(function (element) {
 
                 switch (element.name) {
                     case 'toggle-columns':
-                      toggle_columns_html = element.shortcut;
-                      break;
+                        toggle_columns_html = element.shortcut;
+                        break;
                     case 'toggle-lines':
-                      toggle_lines_html = element.shortcut;
-                      break;
+                        toggle_lines_html = element.shortcut;
+                        break;
                     case '_execute_browser_action':
-                      activate_html = element.shortcut;
-                      break;
-                    }
-                });
-            
+                        activate_html = element.shortcut;
+                        break;
+                }
+            });
+
             document.getElementById("toggle-v").innerHTML = (toggle_columns_html).split('+').join(' + '); // get and replace shortcut from chrome extension api
-            document.getElementById("toggle-h").innerHTML = (toggle_lines_html).split('+').join(' + '); 
+            document.getElementById("toggle-h").innerHTML = (toggle_lines_html).split('+').join(' + ');
             document.getElementById("activate-extension").innerHTML = (activate_html).split('+').join(' + ');
         });
 
@@ -133,20 +135,20 @@ var popup = (function () {
         function (request, sender, sendResponse) {
             if (request.status !== undefined) {
                 if (request.status === 1 && gridToggle.checked === false) {
-                    
+
                     console.log('Grid already enabled on page');
                     gridToggle.checked = true;
-                    
+
                     if (!keyboardShortcutEnabled) { // hack way to use keyboard shortcut before clicing on checkbox
                         var settings = settingStorageController.saveSettings(currentChromeTabId, true);
                         gridController.updateGrid(currentChromeTabId, settings.formData.gridForm.settings, settings.formData.advancedForm.settings);
                         keyboardShortcutEnabled = true;
                     }
-                    
+
 
                 } else if (request.status === 0 && gridToggle.checked === true) {
                     gridToggle.checked = false;
-                    
+
 
                 }
             }
@@ -154,11 +156,11 @@ var popup = (function () {
                 if (request.horizontalLinesStatus === 1 && horizontalLinesToggle.checked === false) {
                     console.log('Horizontal lines already enabled on page');
                     horizontalLinesToggle.checked = true;
-                    
+
                     // hack way to use keyboard shortcut before clicing on checkbox
-                    var settings = settingStorageController.saveSettings(currentChromeTabId, true); 
+                    var settings = settingStorageController.saveSettings(currentChromeTabId, true);
                     gridController.updateGrid(currentChromeTabId, settings.formData.gridForm.settings, settings.formData.advancedForm.settings);
-                
+
                 } else if (request.horizontalLinesStatus === 0 && horizontalLinesToggle.checked === true) {
                     horizontalLinesToggle.checked = false;
                 }
@@ -182,6 +184,14 @@ var popup = (function () {
         gridController.updateGrid(currentChromeTabId, settings.formData.gridForm.settings, settings.formData.advancedForm.settings);
     });
 
+
+    gridForm.addEventListener("click", function (event) {
+        if (event.target.value == "Add") {
+            gridController.addBreakpoint();
+        } else if (event.target.value == "Remove") {
+            gridController.removeBreakpoint();
+        }
+    });
 
     /**
      * Adds an event to the reset button
@@ -323,14 +333,14 @@ var popup = (function () {
      * Saves the current tab state, generates the grid, and calculates the report.
      */
     var init = function () {
-        
+
         settingStorageController.init(gridForm, reportForm, advancedForm, tabContentContainer, tabLabelContainer);
 
         /**
          * Heartbeat pattern to determine whether content script is already inject
          * If not it will be injected.
          */
-        chrome.tabs.sendMessage(currentChromeTabId, {greeting: "hello"}, function (response) {
+        chrome.tabs.sendMessage(currentChromeTabId, { greeting: "hello" }, function (response) {
 
             if (response) {
                 console.log("Design Grid Overlay JS already injected.");
@@ -344,8 +354,8 @@ var popup = (function () {
             }
             else {
                 console.log("Design Grid Overlay JS not already injected, injecting now.");
-                chrome.tabs.executeScript(currentChromeTabId, {file: "src/executedScripts/grid.js"});
-                chrome.tabs.executeScript(currentChromeTabId, {file: "src/executedScripts/calcReport.js"}, function () {
+                chrome.tabs.executeScript(currentChromeTabId, { file: "src/executedScripts/grid.js" });
+                chrome.tabs.executeScript(currentChromeTabId, { file: "src/executedScripts/calcReport.js" }, function () {
 
 
                     // Load all stored settings from chrome local storage, and then update the report overlay
@@ -357,6 +367,9 @@ var popup = (function () {
                 });
             }
         });
+
+        gridController.initForm(2);
+
 
         //Grid form event binding
         var gridFormInputs = gridForm.getElementsByTagName('input');
@@ -398,6 +411,8 @@ var popup = (function () {
                 }
             }, 1000));
         }
+
+        var columnsConatiner = gridForm.getElementsByClassName("")
 
     };
 
